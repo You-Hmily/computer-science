@@ -7,14 +7,10 @@ public class ArrayList implements List{
 
     private Object[] elementData = new Object[50];
 
+
     @Override
     public void add(Object object) {
-        if (size == elementData.length){
-            // 扩容
-            ensureCapacity();
-        }
-        elementData[size] = object;
-        size++;
+        add(size,object);
     }
 
     @Override
@@ -22,10 +18,14 @@ public class ArrayList implements List{
         if (index<0||index>=size){
             throw new ArrayIndexOutOfBoundsException();
         }
-        elementData[index] = object;
+        if (size == elementData.length){
+            // 扩容
+            ensureCapacity();
+        }
         for (int i = size;i>index;i--){
             elementData[i] = elementData[i-1];
         }
+        elementData[index] = object;
         size++;
     }
 
@@ -43,9 +43,10 @@ public class ArrayList implements List{
             throw new ArrayIndexOutOfBoundsException();
         }
         Object old = elementData[index];
-        for (int i = index;i<size;i++){
+        for (int i = index;i<size-1;i++){
             elementData[i]=elementData[i+1];
         }
+        size--;
         return old;
     }
 
@@ -59,8 +60,8 @@ public class ArrayList implements List{
      * 扩容方法
      */
     private void ensureCapacity(){
-        Object[] newElementData = new Object[elementData.length * 2];
-        for (int i=0;i<elementData.length;i++){
+        Object[] newElementData = new Object[elementData.length * 2 + 1];
+        for (int i = 0;i < elementData.length;i++){
             newElementData[i] = elementData[i];
         }
         elementData = newElementData;

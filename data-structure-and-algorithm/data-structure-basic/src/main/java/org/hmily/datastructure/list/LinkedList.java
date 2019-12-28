@@ -19,88 +19,56 @@ public class LinkedList implements List{
 
     @Override
     public void add(Object object) {
-        Node newNode=new Node();
-        newNode.data=object;
-       if (head == null){
-           head = new Node();
-           head.next = newNode;
-           size++;
-           return;
-       }
-       Node nextNode = head.next;
-       for (int i = 1;i<=size;i++){
-           if (nextNode.next ==null){
-               nextNode.next = newNode;
-           }
-           nextNode=nextNode.next;
-       }
-       size ++;
-       return;
+        add(size,object);
+        return;
     }
 
     @Override
     public void add(int index, Object object) {
-        if (index<=0||index>=size){
-            throw new ArrayIndexOutOfBoundsException();
-        }
         Node newNode=new Node();
         newNode.data=object;
-        Node nextNode = head.next;
-        Node preNextNode = null;
-        int i = 1;
-        while (true){
-            nextNode = nextNode.next;
-            if (i==index-1){
-                preNextNode=nextNode;
-            }
-            if (i==index){
-                break;
-            }
-            i++;
+        if (index == 0){
+            head.next = newNode;
+        }else {
+            Node preNextNode = getNode(index -1);
+            Node oldNext = preNextNode.next;
+            preNextNode.next = newNode;
+            newNode.next=oldNext;
         }
-        preNextNode.next=newNode;
-        newNode.next=nextNode;
         size++;
     }
 
-    @Override
-    public Object get(int index) {
+    private Node getNode(int index){
         if (index<=0||index>=size){
             throw new ArrayIndexOutOfBoundsException();
         }
-        Node nextNode = head.next;
-        int i = 1;
+        Node node = head;
+        int i = 0;
         while (true){
-            nextNode = nextNode.next;
-            if (i==index){
+            if (i == index){
                 break;
             }
+            node = node.next;
             i++;
         }
-        return nextNode.data;
+        return node;
+    }
+
+
+    @Override
+    public Object get(int index) {
+        Node indexNode = getNode(index);
+        return indexNode.data;
     }
 
 
     @Override
     public Object remove(int index) {
-        if (index<=0||index>=size){
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        Node nextNode = head.next;
-        int i = 1;
-        Node preNextNode = null;
-        while (true){
-            nextNode = nextNode.next;
-            if (i==index-1){
-                preNextNode = nextNode;
-            }
-            if (i==index){
-                break;
-            }
-            i++;
-        }
-        preNextNode.next = nextNode.next;
-        return nextNode.data;
+        Node preNode = getNode(index-1);
+        Node indexNode = getNode(index);
+        preNode.next = indexNode.next;
+        size--;
+        return indexNode.data;
     }
 
 
