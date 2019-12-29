@@ -47,6 +47,8 @@ public class BinaryTreeNode<T> {
         int newHashCode = o.hashCode();
         if (data.hashCode()> newHashCode){
             insertLeftTree(left,newNode,newHashCode);
+        }else if (data.hashCode()== newHashCode){
+            setData((T) o);
         }else {
             insertRightTree(right,newNode,newHashCode);
         }
@@ -58,8 +60,11 @@ public class BinaryTreeNode<T> {
             leftNode = newNode;
             return leftNode;
         }
-        if (leftNode.data.hashCode()>newHashCode){
+        if (leftNode.data.hashCode() > newHashCode){
             return insertLeftTree(leftNode.left,newNode,newHashCode);
+        }else if (leftNode.data.hashCode() == newHashCode){
+            leftNode.setData(newNode.getData());
+            return leftNode;
         }else {
             return insertRightTree(leftNode.right,newNode,newHashCode);
         }
@@ -71,8 +76,11 @@ public class BinaryTreeNode<T> {
             rightNode = newNode;
             return rightNode;
         }
-        if (rightNode.data.hashCode()>newHashCode){
+        if (rightNode.data.hashCode() > newHashCode){
             return insertLeftTree(rightNode.getLeft(),newNode,newHashCode);
+        }else if (rightNode.data.hashCode() == newHashCode){
+            rightNode.setData(newNode.getData());
+            return rightNode;
         }else {
             return insertRightTree(rightNode.getRight(),newNode,newHashCode);
         }
