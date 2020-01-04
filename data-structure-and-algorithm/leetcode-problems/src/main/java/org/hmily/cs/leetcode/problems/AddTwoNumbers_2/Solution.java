@@ -29,7 +29,10 @@ public class Solution {
         l2.next = n1;
         n1.next = n2;
         ListNode listNode = addTwoNumbers(l1,l2);
-        System.out.println(listNode);
+
+        int value  = 2 % 10;
+
+        System.out.println(value);
     }
 
     private static ListNode createListNode(String s){
@@ -65,41 +68,27 @@ public class Solution {
        Explanation: 342 + 465 = 807.
      */
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        long num1 = convertListNodeToNumber(l1);
-        long num2 = convertListNodeToNumber(l2);
-        long num = num1 + num2;
-        return convertNumberToListNode(num);
-    }
-
-   public static long convertListNodeToNumber(ListNode listNode){
-        long num = listNode.val;
-        long i = 1;
-        while (listNode.next != null){
-            listNode = listNode.next;
-            if (listNode.val != 0){
-                num = listNode.val * i * 10 + num;
+        ListNode newList = new ListNode(0);
+        int carry = 0;
+        ListNode tail = newList;
+        while (l1 != null || l2 != null || carry != 0){
+            int value  = carry;
+            if (l1 != null){
+                value += l1.val;
+                l1 = l1.next;
             }
-            i = i*10;
+            if (l2 != null){
+                value += l2.val;
+                l2 = l2.next;
+            }
+            int digit = value % 10;
+            carry = value/10;
+            ListNode newNode = new ListNode(digit);
+            tail.next = newNode;
+            tail = tail.next;
         }
-        return num;
-   }
-
-   public static ListNode convertNumberToListNode(long num){
-        if (num<10){
-            return new ListNode((int) num);
-        }
-        ListNode listNode = new ListNode((int) (num % 10));
-        num = num / 10;
-        ListNode nextNode = listNode;
-        while (num>0){
-            int i = (int) (num % 10);
-            ListNode newNode = new ListNode(i);
-            nextNode.next = newNode;
-            nextNode = newNode;
-            num = num / 10;
-        }
-        return listNode;
-   }
+        return newList.next;
+    }
 
 
     /**
