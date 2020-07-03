@@ -12,6 +12,8 @@
         <module>data-structure-basic</module>
         <module>algorithm-basic</module>
         <module>leetcode-problems</module>
+        <module>beauty-of-datastructure-and-algorithm</module>
+        <module>datastructure-algorithm-training</module>
     </modules>
 
 
